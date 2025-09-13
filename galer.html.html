@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galeria de Produto</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .produto {
+    max-width: 400px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    position: relative;
+  }
+
+  /* Marca d'água centralizada sem fundo */
+  .marca-agua {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 32px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.2);
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  /* Imagem principal */
+  .imagem-principal-container {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+  }
+  .imagem-principal {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    cursor: pointer;
+  }
+
+  /* Container miniaturas */
+  .miniaturas-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    position: relative;
+  }
+
+  .seta {
+    background: yellow;
+    color: #fff;
+    border: none;
+    font-size: 20px;
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    display: none;
+  }
+  .seta.esquerda { left: -15px; }
+  .seta.direita { right: -15px; }
+
+  /* Scroll miniaturas */
+  .miniaturas {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 8px;
+    padding: 5px;
+    scrollbar-width: none;
+    width: calc(70px * 3 + 16px);
+  }
+  .miniaturas::-webkit-scrollbar { display: none; }
+
+  /* Fade indicativo */
+  .fade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 30px;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .fade.left {
+    left: 0;
+    background: linear-gradient(to right, rgba(255,255,255,0.9), transparent);
+    display: none;
+  }
+  .fade.right {
+    right: 0;
+    background: linear-gradient(to left, rgba(255,255,255,0.9), transparent);
+    display: none;
+  }
+
+  /* Miniaturas */
+  .miniaturas img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border 0.3s, transform 0.3s;
+    display: block;
+  }
+  .miniaturas img:hover,
+  .miniaturas img.ativo {
+    border: 2px solid #007bff;
+    transform: scale(1.1);
+  }
+
+  /* Botão detalhes */
+  .detalhes-btn {
+    margin-top: 12px;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: #007bff;
+    color: #fff;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .detalhes-btn:hover { background: #0056b3; }
+
+  /* Descrição */
+  .descricao {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    margin-top: 10px;
+    padding: 0 10px;
+    border-radius: 8px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    line-height: 1.4em;
+    transition: all 0.4s ease;
+  }
+  .descricao.ativo {
+    max-height: 300px;
+    opacity: 1;
+    padding: 10px;
+  }
+
+  /* Sinal de fim */
+  .fim-indicador {
+    text-align: center;
+    margin-top: 8px;
+    font-size: 13px;
+    color: #007bff;
+    display: none;
+  }
+
+  /*aqui*/
+
+  
+
+  @media (max-width: 500px) {
+    .miniaturas {
+      width: calc(60px * 3 + 16px);
+    }
+    .miniaturas img { width: 60px; height: 60px; }
+  }
+</style>
+</head>
+<body>
+
+
+  <div class="product-card" data-category="alimento-bebidas">
+    <div class="produto">
+      <!-- Imagem Principal -->
+      <div class="imagem-principal-container">
+        <img class="imagem-principal" src="IMG-20250809-WA0548.jpg">
+        <div class="marca-agua">MozVendas.com</div>
+      </div>
+  
+      <!-- Miniaturas -->
+      <div class="miniaturas-container">
+        <div class="fade left"></div>
+        <button class="seta esquerda">&#8249;</button>
+        <div class="miniaturas">
+          <img src="IMG-20250809-WA0551.jpg" data-desc="Tipo: Camisa<br>Ocasião: Casual<br>Material: Algodão" class="ativo">
+          <img src="IMG-20250809-WA0552.jpg" data-desc="Tipo: Calça<br>Ocasião: Trabalho<br>Material: Jeans">
+          <img src="relogio.jpg" data-desc="Tipo: Vestido<br>Ocasião: Festa<br>Material: Seda">
+          <img src="relogio.jpg" data-desc="Tipo: Vestido<br>Ocasião: Festa<br>Material: Seda">
+          <img src="relogio.jpg" data-desc="Tipo: Vestido<br>Ocasião: Festa<br>Material: Seda">
+        </div>
+        <button class="seta direita">&#8250;</button>
+        <div class="fade right"></div>
+      </div>
+    </div>
+  
+    <h3>Latt</h3>
+    <p>Preço: 1000 MZN</p>
+  
+    <!-- Descrição -->
+    <button class="detalhes-btn">Ver detalhes</button>
+    <div class="descricao"></div>
+  
+
+    
+
+  </div>
+
+
+  <div class="product-card" data-category="alimento-bebidas">
+    <div class="produto">
+      <!-- Imagem Principal -->
+      <div class="imagem-principal-container">
+        <img class="imagem-principal" src="1 (1).jpg">
+        <div class="marca-agua">MozVendas.com</div>
+      </div>
+  
+      <!-- Miniaturas -->
+      <div class="miniaturas-container">
+        <div class="fade left"></div>
+        <button class="seta esquerda">&#8249;</button>
+        <div class="miniaturas">
+          <img src="1 (2).jpg" data-desc="Tipo: Camisa<br>Ocasião: Casual<br>Material: Algodão" class="ativo">
+          <img src="1 (3).jpg" data-desc="Tipo: Calça<br>Ocasião: Trabalho<br>Material: Jeans">
+          <img src="1 (4).jpg" data-desc="Tipo: Vestido<br>Ocasião: Festa<br>Material: Seda">
+          <img src="1 (5).jpg" data-desc="Tipo: Vestido<br>Ocasião: Festa<br>Material: Seda">
+          <img src="1 (6).jpg" data-desc="Tipo: Vestido<br>Ocasião: Festa<br>Material: Seda">
+        </div>
+        <button class="seta direita">&#8250;</button>
+        <div class="fade right"></div>
+      </div>
+    </div>
+  
+    <h3>Sara</h3>
+    <p>Preço: 3000</p>
+  
+    <!-- Descrição -->
+    <button class="detalhes-btn">Ver detalhes</button>
+    <div class="descricao"></div>
+  
+
+    
+
+  </div>
+<script>
+// Inicializa cada cartão individualmente
+document.querySelectorAll(".product-card").forEach(card => {
+  const imagemPrincipal = card.querySelector(".imagem-principal");
+  const descricaoDiv = card.querySelector(".descricao");
+  const miniaturas = card.querySelectorAll(".miniaturas img");
+  let ultimaDescricao = miniaturas[0]?.dataset.desc || "";
+
+  // Miniaturas
+  miniaturas.forEach(img => {
+    img.addEventListener("click", () => {
+      imagemPrincipal.src = img.src;
+      ultimaDescricao = img.dataset.desc;
+      miniaturas.forEach(i => i.classList.remove("ativo"));
+      img.classList.add("ativo");
+    });
+  });
+
+  // Botão de descrição
+  const btnDetalhes = card.querySelector(".detalhes-btn");
+  if (btnDetalhes) {
+    btnDetalhes.addEventListener("click", () => {
+      if (descricaoDiv.classList.contains("ativo")) {
+        descricaoDiv.classList.remove("ativo");
+      } else {
+        descricaoDiv.innerHTML = ultimaDescricao;
+        descricaoDiv.classList.add("ativo");
+      }
+    });
+  }
+});
+
+  function rolar(valor) {
+    miniaturasContainer.scrollBy({ left: valor, behavior: 'smooth' });
+  }
+
+  function atualizarIndicadores() {
+    const maxScroll = miniaturasContainer.scrollWidth - miniaturasContainer.clientWidth;
+    const pos = miniaturasContainer.scrollLeft;
+
+    fadeLeft.style.display = pos > 5 ? "block" : "none";
+    setaEsquerda.style.display = pos > 5 ? "block" : "none";
+    
+    fadeRight.style.display = pos < maxScroll - 5 ? "block" : "none";
+    setaDireita.style.display = pos < maxScroll - 5 ? "block" : "none";
+
+    fimIndicador.style.display = pos >= maxScroll - 5 ? "block" : "none";
+  }
+
+  miniaturasContainer.addEventListener("scroll", atualizarIndicadores);
+  window.addEventListener("load", atualizarIndicadores);
+</script>
+
+</body>
+</html>
